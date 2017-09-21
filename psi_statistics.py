@@ -24,15 +24,15 @@ def rbf_psi0(m_x, C_x, a, w):
 
 def rbf_psi1(m_x, C_x, Z, a, w):
     c0 = np.power(2.0 * np.pi, 0.5 * len(m_x)) * np.prod(w)
-    return a**2 * c0 * mvn_pdf(Z, m, C + np.diag(w**2))
+    return a**2 * c0 * mvn_pdf(Z, m_x, C_x + np.diag(w**2))
 
 
 def rbf_psi2(m_x, C_x, Z, a, w):
     n, d = Z.shape
     c0 = np.power(2.0 * np.pi, d) * np.prod(w)**2
-    B = np.kron(np.ones((2, 1)), np.eye(len(m)))
-    S = np.kron(np.ones((2, 2)), C) + np.kron(np.eye(2), np.diag(w**2))
-    return a**2 * c0 * mvn_pdf(stack_pairs(Z), np.dot(B, m), S)
+    B = np.kron(np.ones((2, 1)), np.eye(d))
+    S = np.kron(np.ones((2, 2)), C_x) + np.kron(np.eye(2), np.diag(w**2))
+    return a**2 * c0 * mvn_pdf(stack_pairs(Z), np.dot(B, m_x), S)
 
 
 def mvn_pdf(X, m, C):
